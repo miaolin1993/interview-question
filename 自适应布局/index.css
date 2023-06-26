@@ -1,0 +1,33 @@
+.html,
+.body {
+  margin: 0;
+  padding: 0;
+}
+
+.client-a {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  min-width: 1000px;
+  border: 1px solid red;
+  padding: 32px;
+}
+
+.client-a .client-b {
+  flex: 1;
+  /* 这个-38是这么计算的 三个盒子中间两个16px的间距就是32  再加上三个盒子分别的左右边框1px  2*3=6px 加一起就是38px */
+  min-width: calc((100% - 38px) / 3); 
+  max-width: calc((100% - 38px) / 3);
+  border: 1px solid #999;
+  margin-left: 16px;
+  margin-top: 16px;
+  height: 200px;
+}
+/* 取每行第一个去掉左面间距 */
+.client-a .client-b:nth-child(3n + 1) {
+  margin-left: 0;
+}
+/* 取前三个去掉顶部间隙 */
+.client-a .client-b:nth-child(-n + 3) {
+  margin-top: 0;
+}

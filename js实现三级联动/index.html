@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>js实现三级联动</title>
+	<select name="provinces" id="provinces">
+		<option value="-1">--省份--</option>
+	</select>
+	<select name="city" id="city">
+		<option value="-1">--城市--</option>
+	</select>
+	<select name="region" id="region">
+		<option value="-1">--地区--</option>
+	</select>
+</head>
+
+<body>
+	<script src="./region.js"></script>
+	<script>
+		const listData = {
+			provinces: data,
+			city: [],
+			region: []
+		}
+		// 根据参数创建新的节点
+		function getNewElement(tagName, value, text, className = '') {
+			const el = document.createElement(tagName)
+			el.value = value
+			el.innerText = text
+			el.className = className
+			return el
+		}
+
+		// 为el节点插入子节点node
+		function addElement(el, node) {
+			el.appendChild(node)
+		}
+
+		// 将list数据绑定给dom节点el
+		function renderDom(el, list) {
+			list.map(val => {
+				if (val.code && val.name) {
+					addElement(el, getNewElement('option', val.code, val.name))
+				}
+			})
+		}
+
+		// 根据选中值返回该值下的child数组
+		function getChildByValue(value, list) {
+			const opt = list.find(val => val.code === value)
+			if (opt.child && opt.child.length) return opt.child
+			return []
+		}
+
+		// 保留节点第一个元素，清除其他元素
+		function cleanNodeNotFirst(el) {
+			const firstNode = el.firstElementChild
+			el.innerHTML = ''
+			el.appendChild(firstNode)
+		}
+
+		// 为节点监听事件
+		function onProvincesChange() {
+			provinces.addEventListener('change', (e) => {
+				cleanNodeNotFirst(city)
+				listData.city = getChildByValue(e.target.value, data)
+				city.value = -1
+				region.value = -1
+				renderDom(city, listData.city)
+			})
+
+			city.addEventListener('change', (e) => {
+				cleanNodeNotFirst(region)
+				listData.region = [...getChildByValue(e.target.value, listData.city)]
+				region.value = -1
+				renderDom(region, listData.region)
+			})
+		}
+
+		renderDom(provinces, listData.provinces)
+
+		// 监听选项变化
+		onProvincesChange()
+		
+	</script>
+</body>
+
+</html>
