@@ -6,7 +6,7 @@
 
 ## render.jsx渲染组件
 
-利用react提供的服务端组件渲染方法renderToString，将组建test.jsx渲染成字符串，并返回。
+利用react提供的服务端组件渲染方法renderToString，将组件test.jsx渲染成字符串，并返回。
 
 通过在index.js中加载这个字符串，替换html内容，实现服务端渲染。
 
