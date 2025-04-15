@@ -72,7 +72,7 @@
 
 			city.addEventListener('change', (e) => {
 				cleanNodeNotFirst(region)
-				listData.region = [...getChildByValue(e.target.value, listData.city)]
+				listData.region = getChildByValue(e.target.value, listData.city)
 				region.value = -1
 				renderDom(region, listData.region)
 			})
